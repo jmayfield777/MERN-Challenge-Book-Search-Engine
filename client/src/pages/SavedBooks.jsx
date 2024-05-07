@@ -6,14 +6,14 @@ import {
   Col
 } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client';
-import { QUERY_ME } from '../utils/queries';
+import { GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
   // use query hook instead of useEffect
-  const { loading, data } = useQuery(QUERY_ME);
+  const { loading, data } = useQuery(GET_ME);
   const user = data?.me 
   const [removeBook] = useMutation(REMOVE_BOOK);
 
