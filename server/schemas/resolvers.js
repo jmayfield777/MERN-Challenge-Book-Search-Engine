@@ -32,40 +32,40 @@ const resolvers = {
 
       const token = signToken(user);
       return { token, user };
-    }
-  },
+    },
     addUser: async (parent, { username, email, password}) => {
       const user = User.create({ username, email, password });
       const token = signToken(user);
       return { token, user }
   },
-    saveBook: async (parent, { bookData }, context) => {
-      const {
-        bookId,
-        authors,
-        description,
-        title, 
-        image,
-        link
-      } = bookData;
+  saveBook: async (parent, { bookData }, context) => {
+    const {
+      bookId,
+      authors,
+      description,
+      title, 
+      image,
+      link
+    } = bookData;
 
-      const user = await User.findOneAndUpdate(
-        { _id: context.user._id },
-        { $addToSet: { savedBooks: bookData } },
-        { new: true }
-      );
+    const user = await User.findOneAndUpdate(
+      { _id: context.user._id },
+      { $addToSet: { savedBooks: bookData } },
+      { new: true }
+    );
 
-      return user;
-    },
-    removeBook: async (parent, { bookId }, context) => {
-      const user = await User.findOneAndUpdate(
-        { _id: context.user._id },
-        { $pull: { savedBooks: { bookId } } },
-        { new: true }
-      );
+    return user;   
+  },
+  removeBook: async (parent, { bookId }, context) => {
+    const user = await User.findOneAndUpdate(
+      { _id: context.user._id },
+      { $pull: { savedBooks: { bookId } } },
+      { new: true }
+    );
 
-      return user;
-    }
+    return user;
+  } 
+}
 };
 
 module.exports = resolvers;
